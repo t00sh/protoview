@@ -3,6 +3,7 @@ package keys;
 use Curses;
 use displayer;
 
+# Process the keys event
 sub process {
     my $ch;
 

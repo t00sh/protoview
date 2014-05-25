@@ -1,5 +1,6 @@
 package format;
 
+# Format a line which look like "KEY   VALUE"
 sub line {
     my ($key, $value) = @_;
 

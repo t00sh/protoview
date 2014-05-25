@@ -7,6 +7,7 @@ use keys;
 
 use IO::Select;
 
+# Constructor for event manager
 sub new {
     my ($class) = @_;
     my $this = {};
@@ -18,6 +19,7 @@ sub new {
     return $this;
 }
 
+# Add a file decriptor to monitor
 sub add {
     my ($this, $handle, $callback, $user) = @_;
 
@@ -26,6 +28,7 @@ sub add {
     $this->{$handle}->{_user} = $user;
 }
 
+# Delete a file descriptor
 sub del {
     my ($this, $handle) = @_;
     
@@ -33,6 +36,7 @@ sub del {
     delete($this->{$handle});
 }
 
+# Process events
 sub process {
     my $this = shift;
     my @ready;
@@ -48,7 +52,7 @@ sub process {
     $this->_exec_timers;
 }
 
-
+# Set a timer, called every $refresh seconds (not very accurate)
 sub set_timer {
     my ($this, $callback, $user, $refresh) = @_;
     $refresh = $refresh || 5;
@@ -62,6 +66,7 @@ sub set_timer {
 	 });
 }
 
+# Verify timers, and execute them
 sub _exec_timers {
     my $this = shift;
 

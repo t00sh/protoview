@@ -8,6 +8,7 @@ use stats_eth;
 use stats_ipv4;
 use format;
 
+# Stats constructor
 sub new {
     my $class = shift;
     my $this = {};
@@ -21,6 +22,8 @@ sub new {
     return $this;
 }
 
+# Update statistiques
+# Called for every packets received in the wire
 sub add_pkt {
     my ($this, $pkt) = @_;
     my $cur_ref = \$this;
@@ -37,22 +40,26 @@ sub add_pkt {
     }
 }
 
+# Increment the total packet received
 sub inc_tot_pkt {
     my $this = shift;
 
     $this->{_tot_pkt}++;
 }
 
+# Increment total bytes received
 sub inc_tot_bytes {
     my ($this, $bytes) = @_;
 
     $this->{_tot_bytes} += $bytes;
 }
 
+# Get the curent elapsed time in seconds
 sub get_elapsed_time {
     return time - $_[0]->{_timestamp};
 }
 
+# Get the number of packet per seconds
 sub get_pkt_per_sec {
     my $this = shift;
 
@@ -60,14 +67,17 @@ sub get_pkt_per_sec {
     return sprintf "%.2f", $this->get_tot_pkt/$this->get_elapsed_time;
 }
 
+# Get the total packet received
 sub get_tot_pkt {
     return $_[0]->{_tot_pkt};
 }
 
+# Get the total bytes received
 sub get_tot_bytes {
     return $_[0]->{_tot_bytes};
 }
 
+# Get the kilo-bits per seconds rate
 sub get_kbits_per_sec {
     my $this = shift;
 
@@ -75,6 +85,7 @@ sub get_kbits_per_sec {
     return sprintf "%.2f", (($this->get_tot_bytes*8)/$this->get_elapsed_time)/1000;
 }
 
+# Get the average bytes per packet
 sub get_bytes_per_pkt {
     my $this = shift;
 
@@ -82,6 +93,7 @@ sub get_bytes_per_pkt {
     return sprintf "%.2f", $this->get_tot_bytes / $this->get_tot_pkt;
 }
 
+# Build lines for the displayer
 sub build_lines {
     my $this = shift;
     my @lines;
@@ -101,6 +113,7 @@ sub build_lines {
 
 }
 
+# Build lines recursivly for the displayer
 sub _build_lines_rec {
     my ($ref, $spaces, $lines, $i) = @_;
 

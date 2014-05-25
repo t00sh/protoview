@@ -1,8 +1,9 @@
 package stats_ipv4;
 
-use stats;
 use format;
 
+# Called for every IPv4 packet
+# Update the stats Object
 sub update {
     my ($stats_ref, $pkt_ref) = @_;
 
@@ -16,6 +17,7 @@ sub update {
 
 }
 
+# Build lines for the displayer
 sub build_lines {
     my ($ref, $spaces, $lines, $i) = @_;
 

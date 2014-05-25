@@ -10,6 +10,8 @@ use Net::Pcap;
 # Protoview modules
 use pkt;
 
+# Create new Pcap object
+# Init the pcap library
 sub new {
     my ($class, $dev, $callback, $user) = @_;
     my $this = {};
@@ -25,6 +27,7 @@ sub new {
     return $this;    
 }
 
+# Init the device for sniffing
 sub _init_dev {
     my ($this, $dev) = @_;
     my $err;
@@ -45,6 +48,7 @@ sub _init_dev {
     }
 }
 
+# Get the next packet
 sub next_pkt {
     my ($this) = @_;
     my (%hdr, $pkt);
@@ -55,18 +59,21 @@ sub next_pkt {
     }
 }
 
+# Get the device name
 sub get_dev {
     my $this = shift;
 
     return $this->{_dev};
 }
 
+# Get the socket handle
 sub get_handle {
     my $this = shift;
 
     return $this->{_handle};
 }
 
+# Procedure used as a callback for the pcap library
 sub handle {
     my ($raw, $hdr, $stats) = @_;
     my $pkt = pkt->new($raw);

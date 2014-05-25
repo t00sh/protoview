@@ -1,7 +1,6 @@
 package pkt_ipv4;
 
-use Data::Dumper;
-
+# Parse the IPv4 packet
 sub parse {
     my ($this, $ref) = @_;
     my ($ver_ihl, $dscp_ecn, $flags_fragoff);
@@ -29,6 +28,7 @@ sub parse {
     $this->{raw} = substr($this->{raw}, $this->{ihl}*4);
 }
 
+# Convert 32bits IPv4 into dotted notation
 sub _inet_ntoa {
     my $int = shift;
 

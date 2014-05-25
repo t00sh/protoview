@@ -5,6 +5,7 @@ our $list;
 use pkt_eth;
 use pkt_ipv4;
 
+# Constructor
 sub new {
     my ($class) = @_;
     my $this = {};
@@ -14,6 +15,7 @@ sub new {
     return $this;
 }
 
+# Add a protocol to the list
 sub add {
     my ($this, $name, $h) = @_;
 
@@ -21,6 +23,7 @@ sub add {
     
 }
 
+# Init the protocols
 BEGIN {
     $list = protocols->new();
 

@@ -1,8 +1,16 @@
 package stats_eth;
 
-use stats;
 use format;
 
+use constant {
+    ETH_PROTO_IPV4 => 0x0800,
+    ETH_PROTO_IPV6 => 0x86DD,
+    ETH_PROTO_ARP  => 0x0806,
+    ETH_PROTO_RARP => 0x8035,	
+};
+
+# This function is called for every ETHERNET packet
+# Update stats object
 sub update {
     my ($stats_ref, $pkt_ref) = @_;
 
@@ -12,6 +20,7 @@ sub update {
     $$stats_ref->{proto}{$$pkt_ref->{proto}}++;
 }
 
+# Build the lines for the displayer
 sub build_lines {
     my ($ref, $spaces, $lines, $i) = @_;
 

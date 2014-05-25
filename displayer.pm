@@ -5,6 +5,8 @@ use warnings;
 
 use Curses;
 
+# Constructor for the displayer
+# Init the curses mode
 sub new {
     my ($class) = @_;
     my $this = {};
@@ -25,14 +27,17 @@ sub new {
     return $this;
 }
 
+# Get the X window
 sub win_x {
     return $COLS-2;
 }
 
+# Get the Y window
 sub win_y {
     return $LINES-2;
 }
 
+# Refresh the terminal
 sub update {
     my $this = shift;
     my $lines;
@@ -54,6 +59,7 @@ sub update {
     refresh;
 }
 
+# Calculate where to start and end lines (X)
 sub calc_x {
     my ($this, $lines) = @_;
     my ($start_x, $end_x);
@@ -77,6 +83,7 @@ sub calc_x {
     return ($start_x, $end_x);
 }
 
+# Calculate where to start and end lines (Y)
 sub calc_y {
     my ($this, $lines) = @_;
     my ($start_y, $end_y);
@@ -96,6 +103,7 @@ sub calc_y {
     return ($start_y, $end_y);
 }
 
+# Increment the X view
 sub inc_x_view {
     my ($this, $n) = @_;
     $n = $n || 1;
@@ -103,6 +111,7 @@ sub inc_x_view {
     $this->{_x_view} += $n;
 }
 
+# Increment the Y view
 sub inc_y_view {
     my ($this, $n) = @_;
     $n = $n || 1;
@@ -110,6 +119,7 @@ sub inc_y_view {
     $this->{_y_view} += $n;
 }
 
+# Decrement the X view
 sub dec_x_view {
     my ($this, $n) = @_;
     $n = $n || 1;
@@ -118,6 +128,7 @@ sub dec_x_view {
     $this->{_x_view} = 0 if($this->{_x_view} < 0);
 }
 
+# Decrement the Y view
 sub dec_y_view {
     my ($this, $n) = @_;
     $n = $n || 1;

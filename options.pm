@@ -6,6 +6,7 @@ use warnings;
 use Pod::Usage;
 use Getopt::Long;
 
+# Create new options object
 sub new {
     my $class = shift;
     my $this = {};
@@ -21,6 +22,7 @@ sub new {
     return $this;
 }
 
+# Parse command lines options
 sub _parse {
     my ($this, $argv) = @_;
 
