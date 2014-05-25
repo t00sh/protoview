@@ -7,6 +7,9 @@ use warnings;
 # Non-standard modules
 use Net::Pcap;
 
+# Protoview modules
+use pkt;
+
 sub new {
     my ($class, $dev, $callback, $user) = @_;
     my $this = {};

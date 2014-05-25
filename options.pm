@@ -12,6 +12,7 @@ sub new {
 
     bless($this, $class);
 
+    $this->{refresh} = 1;
     $this->{iface} = 'eth0';
     $this->{port} = '15751';
 
@@ -24,6 +25,7 @@ sub _parse {
     my ($this, $argv) = @_;
 
     GetOptions(
+	'refresh=s'    => \$this->{refresh},
 	'iface=s'      => \$this->{iface},
 	'port=s'       => \$this->{port},
 	'help'         => \$this->{help},

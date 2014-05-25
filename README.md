@@ -15,6 +15,10 @@ protoview \[OPTIONS\]
 
     Specify the interface to sniff
 
+- B <-r -refresh>
+
+    Refresh time in seconds (default: 1 second)
+
 - __\-v -version__
 
     Print version

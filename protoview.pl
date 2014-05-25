@@ -4,16 +4,15 @@
 use strict;
 use warnings;
 
-# Moonet modules
+# protoview modules
 use options;
 use pcap;
 use event;
 use stats;
-use pkt;
 use displayer;
 
 # Parse command line options
-my $options = options->new;
+our $options = options->new;
 
 # Create a STATS structure
 our $stats = stats->new;
@@ -22,12 +21,12 @@ our $stats = stats->new;
 our $event = event->new;
 
 # Init PCAP
-my $pcap = pcap->new($options->{iface}, \&pcap::handle, $stats);
+our $pcap = pcap->new($options->{iface}, \&pcap::handle, $stats);
 $event->add($pcap->get_handle, \&pcap::next_pkt, $pcap);
 
 # Init displayer
 our $displayer = displayer->new;
-$event->set_timer(\&displayer::update, $displayer, 1);
+$event->set_timer(\&displayer::update, $displayer, $options->{refresh});
 
 
 # Main loop
@@ -54,6 +53,10 @@ protoview [OPTIONS]
 =item B<-i -iface>
 
 Specify the interface to sniff
+
+=item B <-r -refresh>
+
+Refresh time in seconds (default: 1 second)
 
 =item B<-v -version>
 
