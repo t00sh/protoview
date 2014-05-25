@@ -5,6 +5,9 @@ use warnings;
 
 use Curses;
 
+use colors;
+use format;
+
 # Constructor for the displayer
 # Init the curses mode
 sub new {
@@ -22,6 +25,15 @@ sub new {
     nodelay($this->{_main_win}, 1);
     keypad($this->{_main_win}, 1);
 
+    # Init colors if terminal support it
+    if(has_colors) {
+	start_color();
+	init_pair(COLOR_WHITE_BG_BLACK, COLOR_WHITE, COLOR_BLACK);
+	init_pair(COLOR_RED_BG_BLACK, COLOR_RED, COLOR_BLACK);
+	init_pair(COLOR_GREEN_BG_BLACK, COLOR_GREEN, COLOR_BLACK);
+	init_pair(COLOR_BLACK_BG_WHITE, COLOR_BLACK, COLOR_WHITE);
+    }
+
     $this->update;
 
     return $this;
@@ -34,7 +46,29 @@ sub win_x {
 
 # Get the Y window
 sub win_y {
-    return $LINES-2;
+    return $LINES-3;
+}
+
+sub print_line {
+    my ($this, $x, $y, $line) = @_;
+
+    if(has_colors()) {
+	foreach my $c(split //, $line) {
+	    if(ord($c) < COLOR_MAX) {
+		attron(COLOR_PAIR(ord($c)));
+	    } else {
+		move($x, $y);
+		addch($c);
+		$y++;
+	    }
+	}
+    } else {
+	addstr($x, $y, $line);
+    }
+
+    for(1..format::COLOR_MAX) {
+	attroff(COLOR_PAIR($_));
+    }
 }
 
 # Refresh the terminal
@@ -53,9 +87,18 @@ sub update {
     ($start_y, $end_y) = $this->calc_y($lines);
 
     for(my $i = $start_y; $i < $end_y && $lines->[$i]; $i++) {
-	addstr($i-$start_y+1, 1, substr($lines->[$i], $start_x, $end_x-$start_x));
+
+	$this->print_line($i-$start_y+1, 
+			  1, 
+			  substr($lines->[$i], 
+				 $start_x, $end_x-$start_x));	
     }
 
+    $end_y = scalar @{$lines} if($end_y > @{$lines});
+    $this->print_line($LINES-2,
+		      1,
+		      substr(format::help('[' . $end_y . '/' . @{$lines} . 'lines. Press PAGE_UP or PAGE_DOWN]'),
+			     $start_x, $end_x-$start_x));
     refresh;
 }
 

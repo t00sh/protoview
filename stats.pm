@@ -99,7 +99,7 @@ sub build_lines {
     my @lines;
     my $i = 0;
 
-    $lines[$i++] = "++ INFOS";
+    $lines[$i++] = format::menu("++ INFOS");
     $lines[$i++] = format::line("   Packets captured",  $this->get_tot_pkt);
     $lines[$i++] = format::line("   Packets/sec",  $this->get_pkt_per_sec);
     $lines[$i++] = format::line("   Kb/sec.", $this->get_kbits_per_sec);
@@ -120,7 +120,7 @@ sub _build_lines_rec {
     foreach my $k(keys %{$$ref}) {
 	if($k =~ m/^[A-Z0-9]+$/) {
 	    if(exists $protocols::list->{$k}) {
-		$lines->[$$i++] = '+'x$spaces . "++ $k";
+		$lines->[$$i++] = format::menu('+'x$spaces . "++ $k");
 		$protocols::list->{$k}->{build_lines}(\$$ref->{$k}, $spaces, $lines, $i);
 	    }
 	    _build_lines_rec(\$$ref->{$k}, $spaces + 3, $lines, $i);
