@@ -12,14 +12,55 @@ use Data::Dumper;
 use Data::HexDump;
 
 sub parse {
-    my ($this) = @_;
+    my ($this, $ref) = @_;
 
-    ($this->{ETHERNET}{_dst}, 
-     $this->{ETHERNET}{_src}, 
-     $this->{ETHERNET}{_proto},
-     $this->{ETHERNET}{_data}) = unpack('H12H12na*', $this->{_raw});    
+    ($$ref->{dst}, 
+     $$ref->{src}, 
+     $$ref->{proto},
+     $$ref->{data}) = unpack('H12H12na*', $this->{raw});    
 
-    $this->{_raw} = $this->{ETHERNET}{_data};
+    $this->{raw} = $$ref->{data};
 }
 
 1;
+
+
+# ++ INFOS
+#    Packets captured   61043
+#    Packets/sec        26.4943576388889
+#    Kb/sec.            29.9714756944444
+#    bytes/packet       141.404993201514
+#    Elapsed secondes   2304
+
+
+# ++++ ETHERNET
+#      Packets          1212
+#      src: 52:12:10:12:52:42   5 
+#      src: 52:12:10:12:52:41   5 
+#      dst: 52:12:10:12:52:42   5 
+#      dst: 52:12:10:12:52:41   5 
+#      proto: IPV4              10
+#      proto: ARP               21
+#      proto: IPV6              54
+
+# ++++++ IPV4    
+#        Packets                151
+#        src: 10.0.8.1          51
+#        dst: 52.45.85.1        300
+#        proto: tcp             51
+
+# ++++++++ TCP
+#          ??????????????????
+#          ??????????????????
+
+# ++++++ IPV6
+#        ????????????????????
+#        ????????????????????
+
+# ++++++++ TCP
+#          ???????????????????
+
+
+#     stats = {INFOS => {},
+# 	     PROTOS => [ETHERNET => {IPV4 => {TCP => {}}}]
+

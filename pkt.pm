@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use protocols;
+use Data::Dumper;
 
 sub new {
     my ($class, $raw) = @_;
@@ -11,19 +12,20 @@ sub new {
 
     bless($this, $class);
 
-    $this->{_len} = length($raw);
+    $this->{len} = length($raw);
     $this->pkt_eth::parse;
 
-    $this->{_raw} = $raw;
-    $this->parse('ETHERNET');
+    $this->{raw} = $raw;
+    $this->parse('ETHERNET', \$this->{ETHERNET});
 
     return $this;
 }
 
 sub parse {
-    my ($this, $proto) = @_;
+    my ($this, $proto, $ref) = @_;
 
-    $protocols::list->{$proto}->{parser}($this);
+    push(@{$this->{PROTO_REFS}}, [$proto, $ref]);
+    $protocols::list->{$proto}->{parser}($this, $ref);
 
     foreach my $p(keys %{$protocols::list}) {
 	if(defined $protocols::list->{$p}->{from}) {
@@ -31,8 +33,8 @@ sub parse {
 		my $field = $protocols::list->{$p}->{field}->[0];
 		my $value = $protocols::list->{$p}->{field}->[1];
 
-		if($this->{$proto}{$field} == $value) {
-		    $this->parse($p);
+		if($$ref->{$field} == $value) {
+		    $this->parse($p, \$$ref->{$p});
 		}
 	    }
 	}
@@ -40,7 +42,7 @@ sub parse {
 }
 
 sub get_len {
-    return $_[0]->{_len};
+    return $_[0]->{len};
 }
 
 1;

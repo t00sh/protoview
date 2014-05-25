@@ -1,14 +1,27 @@
 package stats_eth;
 
-use Data::Dumper;
+use stats;
+use format;
 
 sub update {
-    my ($this, $pkt) = @_;
+    my ($stats_ref, $pkt_ref) = @_;
 
-    $this->{ETHERNET}{_tot}++;
-    $this->{ETHERNET}{src}{$pkt->{ETHERNET}{_src}}++;
-    $this->{ETHERNET}{dst}{$pkt->{ETHERNET}{_dst}}++;
-    $this->{ETHERNET}{proto}{$pkt->{ETHERNET}{_proto}}++;
+    $$stats_ref->{tot}++;
+    $$stats_ref->{src}{$$pkt_ref->{src}}++;
+    $$stats_ref->{dst}{$$pkt_ref->{dst}}++;
+    $$stats_ref->{proto}{$$pkt_ref->{proto}}++;
+}
+
+sub build_lines {
+    my ($ref, $spaces, $lines, $i) = @_;
+
+    $lines->[$$i++] = format::line(' 'x$spaces . "   Total packets", $$ref->{tot});
+
+    foreach my $p(keys %{$$ref->{proto}}) {
+	$lines->[$$i++] = format::line(' 'x$spaces . "   Proto:$p", $$ref->{proto}{$p});
+    }
+
+    $lines->[$$i++] = ' ';
 }
 
 1;

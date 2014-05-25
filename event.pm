@@ -3,6 +3,8 @@ package event;
 use strict;
 use warnings;
 
+use keys;
+
 use IO::Select;
 
 sub new {
@@ -40,6 +42,8 @@ sub process {
     foreach(@ready) {
 	$this->{$_}->{_callback}($this->{$_}->{_user});
     }
+    
+    keys::process();
 
     $this->_exec_timers;
 }

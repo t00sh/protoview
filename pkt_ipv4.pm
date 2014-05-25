@@ -1,31 +1,32 @@
 package pkt_ipv4;
 
+use Data::Dumper;
+
 sub parse {
-    my ($this) = @_;
+    my ($this, $ref) = @_;
     my ($ver_ihl, $dscp_ecn, $flags_fragoff);
     
     ($ver_ihl,
      $dscp_ecn,
-     $this->{IPV4}{tot_len},
-     $this->{IPV4}{ident},
+     $$ref->{tot_len},
+     $$ref->{ident},
      $flags_fragoff,
-     $this->{IPV4}{ttl},
-     $this->{IPV4}{proto},
-     $this->{IPV4}{checksum},
-     $this->{IPV4}{src},
-     $this->{IPV4}{dst})
-	= unpack('CCnnnCCnNN', $this->{_raw});
+     $$ref->{ttl},
+     $$ref->{proto},
+     $$ref->{checksum},
+     $$ref->{src},
+     $$ref->{dst})
+	= unpack('CCnnnCCnNN', $this->{raw});
 
 
-    $this->{IPV4}{version} = $ver_ihl >> 4;
-    $this->{IPV4}{ihl} = $ver_ihl & 0xf;
-    $this->{IPV4}{flags} = $flags_fragoff >> 13;
-    $this->{IPV4}{frag_off} = $flags_fragoff & 0x1FFF;
-    $this->{IPV4}{src} = _inet_ntoa($this->{IPV4}{src});
-    $this->{IPV4}{dst} = _inet_ntoa($this->{IPV4}{dst});
-    $this->{IPV4}{options} = substr($this->{_raw}, 20, $this->{ihl}*4);
-    $this->{_raw} = substr($this->{_raw}, $this->{ihl}*4);
-
+    $$ref->{version} = $ver_ihl >> 4;
+    $$ref->{ihl} = $ver_ihl & 0xf;
+    $$ref->{flags} = $flags_fragoff >> 13;
+    $$ref->{frag_off} = $flags_fragoff & 0x1FFF;
+    $$ref->{src} = _inet_ntoa($$ref->{src});
+    $$ref->{dst} = _inet_ntoa($$ref->{dst});
+    $$ref->{options} = substr($this->{raw}, 20, $this->{ihl}*4);
+    $this->{raw} = substr($this->{raw}, $this->{ihl}*4);
 }
 
 sub _inet_ntoa {

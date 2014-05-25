@@ -19,14 +19,14 @@ my $options = options->new;
 our $stats = stats->new;
 
 # Create event manager
-our $event = event->new();
+our $event = event->new;
 
 # Init PCAP
 my $pcap = pcap->new($options->{iface}, \&pcap::handle, $stats);
 $event->add($pcap->get_handle, \&pcap::next_pkt, $pcap);
 
 # Init displayer
-my $displayer = displayer->new();
+our $displayer = displayer->new;
 $event->set_timer(\&displayer::update, $displayer, 1);
 
 
