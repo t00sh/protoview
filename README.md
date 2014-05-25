@@ -19,6 +19,10 @@ protoview \[OPTIONS\]
 
     Refresh time in seconds (default: 1 second)
 
+- B <-n -nocolor>
+
+    Don't color the terminal
+
 - __\-v -version__
 
     Print version

@@ -58,6 +58,10 @@ Specify the interface to sniff
 
 Refresh time in seconds (default: 1 second)
 
+=item B <-n -nocolor>
+
+Don't color the terminal
+
 =item B<-v -version>
 
 Print version

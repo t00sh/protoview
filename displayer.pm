@@ -51,23 +51,24 @@ sub win_y {
 
 sub print_line {
     my ($this, $x, $y, $line) = @_;
+    my $color = has_colors() && !$main::options->{nocolor};
 
-    if(has_colors()) {
-	foreach my $c(split //, $line) {
-	    if(ord($c) < COLOR_MAX) {
+    foreach my $c(split //, $line) {
+	if(ord($c) < COLOR_MAX) {
+	    if($color) {
 		attron(COLOR_PAIR(ord($c)));
-	    } else {
-		move($x, $y);
-		addch($c);
-		$y++;
 	    }
+	} else {
+	    move($x, $y);
+	    addch($c);
+	    $y++;
 	}
-    } else {
-	addstr($x, $y, $line);
     }
 
-    for(1..format::COLOR_MAX) {
-	attroff(COLOR_PAIR($_));
+    if($color) {
+	for(1..COLOR_MAX) {
+	    attroff(COLOR_PAIR($_));
+	}
     }
 }
 
@@ -97,7 +98,7 @@ sub update {
     $end_y = scalar @{$lines} if($end_y > @{$lines});
     $this->print_line($LINES-2,
 		      1,
-		      substr(format::help('[' . $end_y . '/' . @{$lines} . 'lines. Press PAGE_UP or PAGE_DOWN]'),
+		      substr(format::help('[' . $end_y . '/' . @{$lines} . ' lines. Press PAGE_UP or PAGE_DOWN]'),
 			     $start_x, $end_x-$start_x));
     refresh;
 }
