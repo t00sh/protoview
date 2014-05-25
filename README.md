@@ -5,7 +5,7 @@
 
 # SYNOPSIS
 
-moonet \[OPTIONS\]
+protoview \[OPTIONS\]
 
 
 
@@ -23,7 +23,19 @@ moonet \[OPTIONS\]
 
     Print help
 
+# CONTROLS
 
+- __PAGE UP__
+
+    Scroll backward
+
+- __PAGE DOWN__
+
+    Scroll forward
+
+- __ARROWS__
+
+    Browse into the window
 
 # DESCRIPTION
 

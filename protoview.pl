@@ -44,7 +44,7 @@ Make statistiques with protocols wich come to your interface
 
 =head1 SYNOPSIS
 
-moonet [OPTIONS]
+protoview [OPTIONS]
 
 
 =head1 OPTIONS
@@ -65,6 +65,23 @@ Print help
 
 =back
 
+=head1 CONTROLS
+
+=over 4
+
+=item B<PAGE UP>
+
+Scroll backward
+
+=item B<PAGE DOWN>
+
+Scroll forward
+
+=item B<ARROWS>
+
+Browse into the window
+
+=back
 
 =head1 DESCRIPTION
 
