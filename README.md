@@ -15,11 +15,11 @@ protoview \[OPTIONS\]
 
     Specify the interface to sniff
 
-- B <-r -refresh>
+- __\-r -refresh__
 
     Refresh time in seconds (default: 1 second)
 
-- B <-n -nocolor>
+- __\-n -nocolor__
 
     Don't color the terminal
 
@@ -30,6 +30,10 @@ protoview \[OPTIONS\]
 - __\-h -help__
 
     Print help
+
+- __\-m -man__
+
+    Print complete help
 
 # CONTROLS
 
@@ -47,32 +51,39 @@ protoview \[OPTIONS\]
 
 # DESCRIPTION
 
-__This program__ is a network monitoring tool.
+__This program__ is a network monitoring tool using Curses.
 It make statistiques with protocols wich are used on your network.
 
+# SCREENSHOTS
 
-
-# VERSION
-
-V1.0
-
-# AUTHOR
-
-Written by __Tosh__
-
-(duretsimon73 -at- gmail -dot- com)
-
-
-
-# LICENCE
-
-This program is a free software. 
-It is distrubued with the terms of the __GPLv3 licence__.
-
-
+<img src="https://github.com/t00sh/protoview/blob/master/screenshots/version\_1\_0.jpg" alt="screen" />
 
 # DEPENDS
 
 - __perl 5__
 - __Net::Pcap__
 - __Curses__
+
+# PROTOCOLS
+
+- __L2__
+    - Ethernet
+
+- __L3__
+    - IPv4
+    - IPv6
+
+# LICENCE
+
+This program is a free software. 
+It is distrubued with the terms of the __GPLv3 licence__.
+
+# VERSION
+
+V1.0-beta
+
+# AUTHOR
+
+Written by __Tosh__
+
+(duretsimon73 -at- gmail -dot- com)

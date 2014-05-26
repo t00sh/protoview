@@ -124,7 +124,7 @@ It make statistiques with protocols wich are used on your network.
 
 =begin html
 
-<img src="screenshots/version_1_0.jpg" alt="screen" />
+<img src="https://github.com/t00sh/protoview/blob/master/screenshots/version_1_0.jpg" alt="screen" />
 
 =end html
 
