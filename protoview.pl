@@ -1,5 +1,26 @@
 #!/usr/bin/perl
 
+############################################################################
+# This file is part of protoview.					   #
+# 									   #
+# Protoview is free software: you can redistribute it and/or modify	   #
+# it under the terms of the GNU General Public License as published by     #
+# the Free Software Foundation, either version 3 of the License, or	   #
+# (at your option) any later version.				           #
+# 									   #
+# Protoview is distributed in the hope that it will be useful,  	   #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of	   #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the	           #
+# GNU General Public License for more details.			           #
+# 									   #
+# You should have received a copy of the GNU General Public License	   #
+# along with Protoview.  If not, see <http://www.gnu.org/licenses/>	   #
+# 									   #
+# Tosh (duretsimon73 -at- gmail -dot- com)				   #
+# - 2014 -								   #
+#                                                                          #
+############################################################################
+
 # standard modules
 use strict;
 use warnings;
@@ -54,11 +75,11 @@ protoview [OPTIONS]
 
 Specify the interface to sniff
 
-=item B <-r -refresh>
+=item B<-r -refresh>
 
 Refresh time in seconds (default: 1 second)
 
-=item B <-n -nocolor>
+=item B<-n -nocolor>
 
 Don't color the terminal
 
@@ -69,6 +90,10 @@ Print version
 =item B<-h -help>
 
 Print help
+
+=item B<-m -man>
+
+Print complete help
 
 =back
 
@@ -92,26 +117,8 @@ Browse into the window
 
 =head1 DESCRIPTION
 
-B<This program> is a network monitoring tool.
+B<This program> is a network monitoring tool using Curses.
 It make statistiques with protocols wich are used on your network.
-
-
-=head1 VERSION
-
-V1.0
-
-=head1 AUTHOR
-
-Written by B<Tosh>
-
-(duretsimon73 -at- gmail -dot- com)
-
-
-=head1 LICENCE
-
-This program is a free software. 
-It is distrubued with the terms of the B<GPLv3 licence>.
-
 
 =head1 DEPENDS
 
@@ -124,5 +131,48 @@ It is distrubued with the terms of the B<GPLv3 licence>.
 =item B<Curses>
 
 =back
+
+=head1 PROTOCOLS
+
+=over 4
+
+=item B<L2>
+
+=over 4
+
+=item Ethernet
+
+=back
+
+=back
+
+=over 4
+
+=item B<L3>
+
+=over 4
+
+=item IPv4
+
+=item IPv6
+
+=back
+
+=back
+
+=head1 LICENCE
+
+This program is a free software. 
+It is distrubued with the terms of the B<GPLv3 licence>.
+
+=head1 VERSION
+
+V1.0-beta
+
+=head1 AUTHOR
+
+Written by B<Tosh>
+
+(duretsimon73 -at- gmail -dot- com)
 
 =cut
