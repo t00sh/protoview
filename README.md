@@ -56,7 +56,7 @@ It make statistiques with protocols wich are used on your network.
 
 # SCREENSHOTS
 
-<img src="https://github.com/t00sh/protoview/blob/master/screenshots/version\_1\_0.jpg" alt="screen" />
+<img src="https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg" alt="screen" />
 
 # DEPENDS
 
