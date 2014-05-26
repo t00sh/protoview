@@ -122,6 +122,8 @@ It make statistiques with protocols wich are used on your network.
 
 =head1 SCREENSHOTS
 
+L<https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg>
+
 =begin html
 
 <img src="https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg" alt="screen" />
