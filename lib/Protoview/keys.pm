@@ -19,29 +19,32 @@
 #                                                                          #
 ############################################################################
 
-package format;
+package keys;
 
-use colors;
+use Curses;
+use Protoview::displayer;
 
-# Format a line which look like "KEY   VALUE"
-sub line {
-    my ($key, $value) = @_;
+# Process the keys event
+sub process {
+    my $ch;
 
-    return sprintf "%-55s %s", chr(COLOR_WHITE_BG_BLACK) . $key, chr(COLOR_GREEN_BG_BLACK) . $value;
-}
+    while(($ch = getch()) != ERR) {
+	if($ch == KEY_LEFT) {
+	    $main::displayer->dec_x_view;
+	} elsif($ch == KEY_RIGHT) {
+	    $main::displayer->inc_x_view;
+	} elsif($ch == KEY_UP) {
+	    $main::displayer->dec_y_view;
+	} elsif($ch == KEY_DOWN) {
+	    $main::displayer->inc_y_view;
+	} elsif($ch == KEY_PPAGE) {
+	    $main::displayer->dec_y_view(int(displayer::win_y()/2));
+	} elsif($ch == KEY_NPAGE) {
+	    $main::displayer->inc_y_view(int(displayer::win_y()/2));
+	}
 
-# Format a menu
-sub menu {
-    my $menu = shift;
-
-    return chr(COLOR_RED_BG_BLACK) . $menu;
-}
-
-# Format the help message
-sub help {
-    my $help = shift;
-
-    return chr(COLOR_BLACK_BG_WHITE) . $help;
+	$main::displayer->update;
+    }
 }
 
 1;

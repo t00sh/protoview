@@ -29,7 +29,7 @@ use warnings;
 use Net::Pcap;
 
 # Protoview modules
-use pkt;
+use Protoview::pkt;
 
 # Create new Pcap object
 # Init the pcap library

@@ -24,12 +24,12 @@ package stats;
 use strict;
 use warnings;
 
-use protocols;
-use stats_eth;
-use stats_ipv4;
-use stats_ipv6;
+use Protoview::protocols;
+use Protoview::stats_eth;
+use Protoview::stats_ipv4;
+use Protoview::stats_ipv6;
 
-use format;
+use Protoview::format;
 
 # Stats constructor
 sub new {

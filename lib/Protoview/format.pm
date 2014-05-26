@@ -19,50 +19,32 @@
 #                                                                          #
 ############################################################################
 
-package options;
+package format;
 
 use strict;
 use warnings;
 
-use Pod::Usage;
-use Getopt::Long;
+use Protoview::colors;
 
-use constant POD => 'README.pod';
+# Format a line which look like "KEY   VALUE"
+sub line {
+    my ($key, $value) = @_;
 
-# Create new options object
-sub new {
-    my $class = shift;
-    my $this = {};
-
-    bless($this, $class);
-
-    $this->{nocolor} = 0;
-    $this->{refresh} = 1;
-    $this->{iface} = 'eth0';
-
-    $this->_parse;
-
-    return $this;
+    return sprintf "%-55s %s", chr(colors::COLOR_WHITE_BG_BLACK) . $key, chr(colors::COLOR_GREEN_BG_BLACK) . $value;
 }
 
-# Parse command lines options
-sub _parse {
-    my ($this, $argv) = @_;
+# Format a menu
+sub menu {
+    my $menu = shift;
 
-    GetOptions(
-	'nocolor'      => \$this->{nocolor},
-	'refresh=s'    => \$this->{refresh},
-	'iface=s'      => \$this->{iface},
-	'addr'         => \$this->{addr},
-	'help'         => \$this->{help},
-	'man'          => \$this->{man},
-	'version'      => \$this->{version}
-	);
-
-    pod2usage(-input => POD, -verbose => 1) if $this->{help};
-    pod2usage(-input => POD, -verbose => 99, -sections => 'VERSION') if $this->{version};
-    pod2usage(-input => POD, -verbose => 2, -exitval => 0) if($this->{man});
+    return chr(colors::COLOR_RED_BG_BLACK) . $menu;
 }
 
+# Format the help message
+sub help {
+    my $help = shift;
+
+    return chr(colors::COLOR_BLACK_BG_WHITE) . $help;
+}
 
 1;

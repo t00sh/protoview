@@ -24,7 +24,7 @@ package event;
 use strict;
 use warnings;
 
-use keys;
+use Protoview::keys;
 
 use IO::Select;
 

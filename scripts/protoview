@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 ############################################################################
 # This file is part of protoview.					   #
 # 									   #
@@ -19,19 +21,36 @@
 #                                                                          #
 ############################################################################
 
-package colors;
+# standard modules
+use strict;
+use warnings;
 
-use Exporter;
+# protoview modules
+use Protoview::options;
+use Protoview::pcap;
+use Protoview::event;
+use Protoview::stats;
+use Protoview::displayer;
 
-our @ISA = qw(Exporter);
-our @EXPORT = qw(COLOR_WHITE_BG_BLACK COLOR_RED_BG_BLACK COLOR_GREEN_BG_BLACK COLOR_BLACK_BG_WHITE COLOR_MAX);
+# Parse command line options
+our $options = options->new;
 
-use constant {
-    COLOR_WHITE_BG_BLACK => 1,
-    COLOR_RED_BG_BLACK   => 2,
-    COLOR_GREEN_BG_BLACK => 3,
-    COLOR_BLACK_BG_WHITE => 4,
-    COLOR_MAX            => 5
-};
+# Create a STATS structure
+our $stats = stats->new;
 
-1;
+# Create event manager
+our $event = event->new;
+
+# Init PCAP
+our $pcap = pcap->new($options->{iface}, \&pcap::handle, $stats);
+$event->add($pcap->get_handle, \&pcap::next_pkt, $pcap);
+
+# Init displayer
+our $displayer = displayer->new;
+$event->set_timer(\&displayer::update, $displayer, $options->{refresh});
+
+
+# Main loop
+while(1) {
+    $event->process;
+}

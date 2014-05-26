@@ -19,18 +19,28 @@
 #                                                                          #
 ############################################################################
 
-package misc;
+package pkt_eth;
 
-use Exporter;
+# Parse the ethernet packet
+sub parse {
+    my ($this, $ref) = @_;
 
-our @ISA = qw(Exporter);
-our @EXPORT = qw(percentage);
+    $$ref->{dst}   = substr($this->{raw}, 0 , 6);
+    $$ref->{src}   = substr($this->{raw}, 6, 12);
+    $$ref->{proto} = substr($this->{raw}, 12, 14);
+    $$ref->{data}  = substr($this->{raw}, 14);
 
-sub percentage {
-    my ($n, $tot) = @_;
+    ($$ref->{proto}) = unpack('n', $$ref->{proto});
+    $$ref->{dst} = _inet_ntoa($$ref->{dst});
+    $$ref->{src} = _inet_ntoa($$ref->{src});
+    
+    $this->{raw} = $$ref->{data};
+}
 
-    return "0.00" unless($n);
-    return sprintf "%.2f", ($n/$tot)*100.0;
+sub _inet_ntoa {
+    my $addr = shift;
+
+    return join(':', map ({ sprintf "%02x", $_} unpack('C[6]', $addr)));
 }
 
 1;

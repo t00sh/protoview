@@ -19,31 +19,51 @@
 #                                                                          #
 ############################################################################
 
-package pkt_eth;
+package options;
 
-use Data::Dumper;
-use Data::HexDump;
+use strict;
+use warnings;
 
-# Parse the ethernet packet
-sub parse {
-    my ($this, $ref) = @_;
+use Pod::Usage;
+use Getopt::Long;
 
-    $$ref->{dst}   = substr($this->{raw}, 0 , 6);
-    $$ref->{src}   = substr($this->{raw}, 6, 12);
-    $$ref->{proto} = substr($this->{raw}, 12, 14);
-    $$ref->{data}  = substr($this->{raw}, 14);
+use constant POD => 'Protoview/doc.pod';
 
-    ($$ref->{proto}) = unpack('n', $$ref->{proto});
-    $$ref->{dst} = _inet_ntoa($$ref->{dst});
-    $$ref->{src} = _inet_ntoa($$ref->{src});
-    
-    $this->{raw} = $$ref->{data};
+
+# Create new options object
+sub new {
+    my $class = shift;
+    my $this = {};
+
+    bless($this, $class);
+
+    $this->{nocolor} = 0;
+    $this->{refresh} = 1;
+    $this->{iface} = 'eth0';
+
+    $this->_parse;
+
+    return $this;
 }
 
-sub _inet_ntoa {
-    my $addr = shift;
+# Parse command lines options
+sub _parse {
+    my ($this, $argv) = @_;
 
-    return join(':', map ({ sprintf "%02x", $_} unpack('C[6]', $addr)));
+    GetOptions(
+	'nocolor'      => \$this->{nocolor},
+	'refresh=s'    => \$this->{refresh},
+	'iface=s'      => \$this->{iface},
+	'addr'         => \$this->{addr},
+	'help'         => \$this->{help},
+	'man'          => \$this->{man},
+	'version'      => \$this->{version}
+	);
+
+    pod2usage(-input => POD, -pathlist => [@INC], -verbose => 1) if $this->{help};
+    pod2usage(-input => POD, -pathlist => [@INC], -verbose => 99, -sections => 'VERSION') if $this->{version};
+    pod2usage(-input => POD, -pathlist => [@INC], -verbose => 2, -exitval => 0) if($this->{man});
 }
+
 
 1;

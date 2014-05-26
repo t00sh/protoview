@@ -1,5 +1,3 @@
-#!/usr/bin/perl
-
 ############################################################################
 # This file is part of protoview.					   #
 # 									   #
@@ -21,36 +19,58 @@
 #                                                                          #
 ############################################################################
 
-# standard modules
+package pkt;
+
+# Standard modules
 use strict;
 use warnings;
 
-# protoview modules
-use options;
-use pcap;
-use event;
-use stats;
-use displayer;
+# Protoview modules
+use Protoview::protocols;
 
-# Parse command line options
-our $options = options->new;
+# Pkt constructor
+sub new {
+    my ($class, $raw) = @_;
+    my $this = {};
 
-# Create a STATS structure
-our $stats = stats->new;
+    bless($this, $class);
 
-# Create event manager
-our $event = event->new;
+    $this->{len} = length($raw);
 
-# Init PCAP
-our $pcap = pcap->new($options->{iface}, \&pcap::handle, $stats);
-$event->add($pcap->get_handle, \&pcap::next_pkt, $pcap);
+    $this->{raw} = $raw;
 
-# Init displayer
-our $displayer = displayer->new;
-$event->set_timer(\&displayer::update, $displayer, $options->{refresh});
+    # TODO: handle overs L2 protocols
+    $this->parse('ETHERNET', \$this->{ETHERNET});
 
-
-# Main loop
-while(1) {
-    $event->process;
+    return $this;
 }
+
+# Parse recursivly the packet
+sub parse {
+    my ($this, $proto, $ref) = @_;
+
+    push(@{$this->{PROTO_REFS}}, [$proto, $ref]);
+    $protocols::list->{$proto}->{parser}($this, $ref);
+
+    foreach my $p(keys %{$protocols::list}) {
+    	if(defined $protocols::list->{$p}->{from}) {
+    	    if($protocols::list->{$p}->{from} eq $proto) {
+    		my $field = $protocols::list->{$p}->{field}->[0];
+    		my $value = $protocols::list->{$p}->{field}->[1];
+
+    		if($$ref->{$field} == $value) {
+    		    $this->parse($p, \$$ref->{$p});
+    		}
+    	    }
+    	}
+    }
+}
+
+# Get the packet len (in bytes)
+sub get_len {
+    return $_[0]->{len};
+}
+
+1;
+
+

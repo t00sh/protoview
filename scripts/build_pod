@@ -21,16 +21,17 @@
 #                                                                          #
 ############################################################################
 
+use lib::Protoview::VARS;
 
-# Generate the POD file, with correct VERSION number
+# Generate the POD file, with correct variables
 
-my $PACKAGE = 'Protoview';
-my $VERSION = '1.0';
-my $AUTHOR  = 'Tosh';
-my $MAIL    = 'duretsimon73 -at- gmail -dot- com';
-my $LICENSE = 'GPLv3';
+my @FILES = ('README.pod', 'lib/Protoview/doc.pod');
 
-print <<EOF;
+foreach my $file(@FILES) {
+
+    open F, '>', $file || die "Can't open $file : $!\n";
+
+    print F <<EOF;
 
 =pod
 
@@ -166,3 +167,6 @@ Written by B<$AUTHOR> ($MAIL)
 
 
 EOF
+
+   close F;
+}

@@ -26,8 +26,8 @@ use warnings;
 
 use Curses;
 
-use colors;
-use format;
+use Protoview::colors;
+use Protoview::format;
 
 # Constructor for the displayer
 # Init the curses mode
@@ -49,10 +49,10 @@ sub new {
     # Init colors if terminal support it
     if(has_colors) {
 	start_color();
-	init_pair(COLOR_WHITE_BG_BLACK, COLOR_WHITE, COLOR_BLACK);
-	init_pair(COLOR_RED_BG_BLACK, COLOR_RED, COLOR_BLACK);
-	init_pair(COLOR_GREEN_BG_BLACK, COLOR_GREEN, COLOR_BLACK);
-	init_pair(COLOR_BLACK_BG_WHITE, COLOR_BLACK, COLOR_WHITE);
+	init_pair(colors::COLOR_WHITE_BG_BLACK, COLOR_WHITE, COLOR_BLACK);
+	init_pair(colors::COLOR_RED_BG_BLACK, COLOR_RED, COLOR_BLACK);
+	init_pair(colors::COLOR_GREEN_BG_BLACK, COLOR_GREEN, COLOR_BLACK);
+	init_pair(colors::COLOR_BLACK_BG_WHITE, COLOR_BLACK, COLOR_WHITE);
     }
 
     $this->update;
@@ -75,7 +75,7 @@ sub print_line {
     my $color = has_colors() && !$main::options->{nocolor};
 
     foreach my $c(split //, $line) {
-	if(ord($c) < COLOR_MAX) {
+	if(ord($c) < colors::COLOR_MAX) {
 	    if($color) {
 		attron(COLOR_PAIR(ord($c)));
 	    }
@@ -87,7 +87,7 @@ sub print_line {
     }
 
     if($color) {
-	for(1..COLOR_MAX) {
+	for(1..colors::COLOR_MAX) {
 	    attroff(COLOR_PAIR($_));
 	}
     }

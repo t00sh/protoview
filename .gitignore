@@ -1,2 +1,4 @@
 *~
-debug.pm
+*.json
+*.yml
+Makefile

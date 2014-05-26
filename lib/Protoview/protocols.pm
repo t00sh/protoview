@@ -23,9 +23,9 @@ package protocols;
 
 our $list;
 
-use pkt_eth;
-use pkt_ipv4;
-use pkt_ipv6;
+use Protoview::pkt_eth;
+use Protoview::pkt_ipv4;
+use Protoview::pkt_ipv6;
 
 # Constructor
 sub new {
