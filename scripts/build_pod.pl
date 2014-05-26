@@ -27,7 +27,7 @@
 my $PACKAGE = 'Protoview';
 my $VERSION = '1.0';
 my $AUTHOR  = 'Tosh';
-my $MAIL    = 'duretsimon73 -at- gmail -dot- come';
+my $MAIL    = 'duretsimon73 -at- gmail -dot- com';
 my $LICENSE = 'GPLv3';
 
 print <<EOF;
