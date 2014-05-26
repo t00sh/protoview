@@ -4,6 +4,7 @@ our $list;
 
 use pkt_eth;
 use pkt_ipv4;
+use pkt_ipv6;
 
 # Constructor
 sub new {
@@ -39,6 +40,14 @@ BEGIN {
 	update      => \&stats_ipv4::update,
 	from        => 'ETHERNET',
 	field       => ['proto', 0x0800]
+		    });    
+
+    $list->add('IPV6', {
+	parser      => \&pkt_ipv6::parse,
+	build_lines => \&stats_ipv6::build_lines,
+	update      => \&stats_ipv6::update,
+	from        => 'ETHERNET',
+	field       => ['proto', 0x86DD]
 		    });    
 
 }

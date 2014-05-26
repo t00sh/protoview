@@ -1,27 +1,28 @@
-package stats_eth;
+package stats_ipv6;
 
 use format;
 use misc;
 
 use constant {
-    ETH_PROTO_IPV4 => 0x0800,
-    ETH_PROTO_IPV6 => 0x86DD,
-    ETH_PROTO_ARP  => 0x0806,
-    ETH_PROTO_RARP => 0x8035,	
+    IPV6_PROTO_ICMP   => 1,
+    IPV6_PROTO_IGMP   => 2,
+    IPV6_PROTO_TCP    => 6,
+    IPV6_PROTO_UDP    => 17,
+    IPV6_PROTO_ICMPV6 => 58,
 };
 
-# This function is called for every ETHERNET packet
-# Update stats object
+# Called for every IPv6 packet
+# Update the stats Object
 sub update {
     my ($stats_ref, $pkt_ref) = @_;
 
     $$stats_ref->{tot}++;
     $$stats_ref->{src}{$$pkt_ref->{src}}++;
     $$stats_ref->{dst}{$$pkt_ref->{dst}}++;
-    $$stats_ref->{proto}{$$pkt_ref->{proto}}++;
+    $$stats_ref->{next_header}{$$pkt_ref->{next_header}}++;
 }
 
-# Build the lines for the displayer
+# Build lines for the displayer
 sub build_lines {
     my ($ref, $spaces, $lines, $i) = @_;
     my @keys;
@@ -30,10 +31,10 @@ sub build_lines {
 
     $lines->[$$i++] = ' ';
 
-    @keys = sort {$$ref->{proto}{$b} <=> $$ref->{proto}{$a}} keys %{$$ref->{proto}};
+    @keys = sort {$$ref->{next_header}{$b} <=> $$ref->{next_header}{$a}} keys %{$$ref->{next_header}};
     foreach my $p(@keys) {
 	$lines->[$$i++] = format::line(' 'x$spaces . "   Proto:" . _proto_to_str($p), 
-				       $$ref->{proto}{$p} . ' (' . percentage($$ref->{proto}{$p}, $$ref->{tot}) . '%)');
+				       $$ref->{next_header}{$p} . ' (' . percentage($$ref->{next_header}{$p}, $$ref->{tot}) . '%)');
     }
 
     $lines->[$$i++] = ' ';
@@ -58,10 +59,11 @@ sub build_lines {
 sub _proto_to_str {
     my $proto = shift;
 
-    return 'ipv4' if($proto == ETH_PROTO_IPV4);
-    return 'ipv6' if($proto == ETH_PROTO_IPV6);
-    return 'arp' if($proto == ETH_PROTO_ARP);
-    return 'rarp' if($proto == ETH_PROTO_RARP);
+    return 'icmp' if($proto == IPV6_PROTO_ICMP);
+    return 'igmp' if($proto == IPV6_PROTO_IGMP);
+    return 'tcp' if($proto == IPV6_PROTO_TCP);
+    return 'udp' if($proto == IPV6_PROTO_UDP);
+    return 'icmpv6' if($proto == IPV6_PROTO_ICMPV6);
 
     return $proto;
 }

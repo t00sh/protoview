@@ -6,6 +6,8 @@ use warnings;
 use protocols;
 use stats_eth;
 use stats_ipv4;
+use stats_ipv6;
+
 use format;
 
 # Stats constructor

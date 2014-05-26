@@ -6,7 +6,7 @@ use colors;
 sub line {
     my ($key, $value) = @_;
 
-    return sprintf "%-40s %s", chr(COLOR_WHITE_BG_BLACK) . $key, chr(COLOR_GREEN_BG_BLACK) . $value;
+    return sprintf "%-55s %s", chr(COLOR_WHITE_BG_BLACK) . $key, chr(COLOR_GREEN_BG_BLACK) . $value;
 }
 
 # Format a menu
