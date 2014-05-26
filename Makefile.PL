@@ -9,5 +9,5 @@ WriteMakefile(
 	'lib/Protoview/doc.pod' => 'blib/man1/protoview.1',
     },
     MAN3PODS => {},
-    LICENCE  => 'GPLv3'
+    LICENSE  => 'GPLv3'
     );
