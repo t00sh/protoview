@@ -120,6 +120,14 @@ Browse into the window
 B<This program> is a network monitoring tool using Curses.
 It make statistiques with protocols wich are used on your network.
 
+=head1 SCREENSHOTS
+
+=begin html
+
+<img src="screenshots/version_1_0.jpg" alt="screen" />
+
+=end html
+
 =head1 DEPENDS
 
 =over 4
