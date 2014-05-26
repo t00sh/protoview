@@ -42,38 +42,55 @@ sub update {
     $$stats_ref->{proto}{$$pkt_ref->{proto}}++;
 }
 
-# Build the lines for the displayer
+# Build lines for the displayer
 sub build_lines {
     my ($ref, $spaces, $lines, $i) = @_;
     my @keys;
 
     $lines->[$$i++] = format::line(' 'x$spaces . "   Total packets", $$ref->{tot});
-
     $lines->[$$i++] = ' ';
 
-    @keys = sort {$$ref->{proto}{$b} <=> $$ref->{proto}{$a}} keys %{$$ref->{proto}};
-    foreach my $p(@keys) {
-	$lines->[$$i++] = format::line(' 'x$spaces . "   Proto:" . _proto_to_str($p), 
-				       $$ref->{proto}{$p} . ' (' . percentage($$ref->{proto}{$p}, $$ref->{tot}) . '%)');
+    _build_proto_lines($ref, $spaces, $lines, $i);
+    $lines->[$$i++] = ' ';
+
+    _build_addr_lines($ref, $spaces, $lines, $i);
+    $lines->[$$i++] = ' ';
+}
+
+# Build lines corresponding to the protocol
+sub _build_proto_lines {
+   my ($ref, $spaces, $lines, $i) = @_;
+   my @keys;
+
+   @keys = sort {$$ref->{proto}{$b} <=> $$ref->{proto}{$a}} keys %{$$ref->{proto}};
+   foreach my $p(@keys) {
+       $lines->[$$i++] = format::line(' 'x$spaces . "   Proto:" . _proto_to_str($p), 
+				      $$ref->{proto}{$p} . ' (' . percentage($$ref->{proto}{$p}, $$ref->{tot}) . '%)');
+   }   
+}
+
+# Build lines corresponding to src/dst address
+sub _build_addr_lines {
+    my ($ref, $spaces, $lines, $i) = @_;
+    my @keys;
+
+    unless($main::options->{addr}) {
+	$lines->[$$i++] = ' ';
+
+	@keys = sort {$$ref->{src}{$b} <=> $$ref->{src}{$a}} keys %{$$ref->{src}};
+	foreach my $p(@keys) {
+	    $lines->[$$i++] = format::line(' 'x$spaces . "   Src:$p", 
+					   $$ref->{src}{$p} . ' (' . percentage($$ref->{src}{$p}, $$ref->{tot}) . '%)');
+	}
+
+	$lines->[$$i++] = ' ';
+
+	@keys = sort {$$ref->{dst}{$b} <=> $$ref->{dst}{$a}} keys %{$$ref->{dst}};
+	foreach my $p(@keys) {
+	    $lines->[$$i++] = format::line(' 'x$spaces . "   Dst:$p", 
+					   $$ref->{dst}{$p} . ' (' . percentage($$ref->{dst}{$p}, $$ref->{tot}) . '%)');
+	}
     }
-
-    $lines->[$$i++] = ' ';
-
-    @keys = sort {$$ref->{src}{$b} <=> $$ref->{src}{$a}} keys %{$$ref->{src}};
-    foreach my $p(@keys) {
-	$lines->[$$i++] = format::line(' 'x$spaces . "   Src:$p", 
-				       $$ref->{src}{$p} . ' (' . percentage($$ref->{src}{$p}, $$ref->{tot}) . '%)');
-    }
-
-    $lines->[$$i++] = ' ';
-
-    @keys = sort {$$ref->{dst}{$b} <=> $$ref->{dst}{$a}} keys %{$$ref->{dst}};
-    foreach my $p(@keys) {
-	$lines->[$$i++] = format::line(' 'x$spaces . "   Dst:$p", 
-				       $$ref->{dst}{$p} . ' (' . percentage($$ref->{dst}{$p}, $$ref->{tot}) . '%)');
-    }
-
-    $lines->[$$i++] = ' ';
 }
 
 sub _proto_to_str {

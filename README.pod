@@ -1,14 +1,14 @@
+
 =pod
 
 =head1 NAME
 
- - protoview -
-Make statistiques with protocols wich come to your interface
+ - Protoview -
+A Pcap based tool to have an easily view of protocols which pass on an interface.
 
 =head1 SYNOPSIS
 
-protoview [OPTIONS]
-
+Protoview [OPTIONS]
 
 =head1 OPTIONS
 
@@ -25,6 +25,10 @@ Refresh time in seconds (default: 1 second)
 =item B<-n -nocolor>
 
 Don't color the terminal
+
+=item B<-a -addr>
+
+Don't show address fields
 
 =item B<-v -version>
 
@@ -60,8 +64,8 @@ Browse into the window
 
 =head1 DESCRIPTION
 
-B<This program> is a network monitoring tool using Curses.
-It make statistiques with protocols wich are used on your network.
+B<This program> is a network monitoring tool using Curses and Pcap.
+It make statistiques on protocols wich are used on your network interface.
 
 =head1 SCREENSHOTS
 
@@ -117,16 +121,14 @@ L<https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg>
 
 =head1 LICENCE
 
-This program is a free software. 
-It is distrubued with the terms of the B<GPLv3 licence>.
+Protoview is distrubued with the terms of the B<GPLv3> license.
 
 =head1 VERSION
 
-V1.0-beta
+Protoview version B<v1.0>
 
 =head1 AUTHOR
 
-Written by B<Tosh>
+Written by B<Tosh> (duretsimon73 -at- gmail -dot- come)
 
-(duretsimon73 -at- gmail -dot- com)
 

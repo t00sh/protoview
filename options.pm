@@ -27,6 +27,8 @@ use warnings;
 use Pod::Usage;
 use Getopt::Long;
 
+use constant POD => 'README.pod';
+
 # Create new options object
 sub new {
     my $class = shift;
@@ -37,7 +39,6 @@ sub new {
     $this->{nocolor} = 0;
     $this->{refresh} = 1;
     $this->{iface} = 'eth0';
-    $this->{port} = '15751';
 
     $this->_parse;
 
@@ -52,15 +53,15 @@ sub _parse {
 	'nocolor'      => \$this->{nocolor},
 	'refresh=s'    => \$this->{refresh},
 	'iface=s'      => \$this->{iface},
-	'port=s'       => \$this->{port},
+	'addr'         => \$this->{addr},
 	'help'         => \$this->{help},
 	'man'          => \$this->{man},
 	'version'      => \$this->{version}
 	);
 
-    pod2usage(1) if $this->{help};
-    pod2usage(-verbose => 99, -sections => 'VERSION') if $this->{version};
-    pod2usage(-verbose => 2, -exitval => 0) if($this->{man});
+    pod2usage(-input => POD, -verbose => 1) if $this->{help};
+    pod2usage(-input => POD, -verbose => 99, -sections => 'VERSION') if $this->{version};
+    pod2usage(-input => POD, -verbose => 2, -exitval => 0) if($this->{man});
 }
 
 

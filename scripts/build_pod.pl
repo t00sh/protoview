@@ -1,0 +1,168 @@
+#!/usr/bin/perl
+
+############################################################################
+# This file is part of protoview.					   #
+# 									   #
+# Protoview is free software: you can redistribute it and/or modify	   #
+# it under the terms of the GNU General Public License as published by     #
+# the Free Software Foundation, either version 3 of the License, or	   #
+# (at your option) any later version.				           #
+# 									   #
+# Protoview is distributed in the hope that it will be useful,  	   #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of	   #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the	           #
+# GNU General Public License for more details.			           #
+# 									   #
+# You should have received a copy of the GNU General Public License	   #
+# along with Protoview.  If not, see <http://www.gnu.org/licenses/>	   #
+# 									   #
+# Tosh (duretsimon73 -at- gmail -dot- com)				   #
+# - 2014 -								   #
+#                                                                          #
+############################################################################
+
+
+# Generate the POD file, with correct VERSION number
+
+my $PACKAGE = 'Protoview';
+my $VERSION = '1.0';
+my $AUTHOR  = 'Tosh';
+my $MAIL    = 'duretsimon73 -at- gmail -dot- come';
+my $LICENSE = 'GPLv3';
+
+print <<EOF;
+
+=pod
+
+=head1 NAME
+
+ - $PACKAGE -
+A Pcap based tool to have an easily view of protocols which pass on an interface.
+
+=head1 SYNOPSIS
+
+$PACKAGE [OPTIONS]
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-i -iface>
+
+Specify the interface to sniff
+
+=item B<-r -refresh>
+
+Refresh time in seconds (default: 1 second)
+
+=item B<-n -nocolor>
+
+Don't color the terminal
+
+=item B<-a -addr>
+
+Don't show address fields
+
+=item B<-v -version>
+
+Print version
+
+=item B<-h -help>
+
+Print help
+
+=item B<-m -man>
+
+Print complete help
+
+=back
+
+=head1 CONTROLS
+
+=over 4
+
+=item B<PAGE UP>
+
+Scroll backward
+
+=item B<PAGE DOWN>
+
+Scroll forward
+
+=item B<ARROWS>
+
+Browse into the window
+
+=back
+
+=head1 DESCRIPTION
+
+B<This program> is a network monitoring tool using Curses and Pcap.
+It make statistiques on protocols wich are used on your network interface.
+
+=head1 SCREENSHOTS
+
+L<https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg>
+
+=begin html
+
+<p>
+   <img src="https://raw.githubusercontent.com/t00sh/protoview/master/screenshots/version-1-0.jpg" alt="screen" />
+</p>
+
+=end html
+
+=head1 DEPENDS
+
+=over 4
+
+=item B<perl 5>
+
+=item B<Net::Pcap>
+
+=item B<Curses>
+
+=back
+
+=head1 PROTOCOLS
+
+=over 4
+
+=item B<L2>
+
+=over 4
+
+=item Ethernet
+
+=back
+
+=back
+
+=over 4
+
+=item B<L3>
+
+=over 4
+
+=item IPv4
+
+=item IPv6
+
+=back
+
+=back
+
+=head1 LICENCE
+
+$PACKAGE is distrubued with the terms of the B<$LICENSE> license.
+
+=head1 VERSION
+
+$PACKAGE version B<v$VERSION>
+
+=head1 AUTHOR
+
+Written by B<$AUTHOR> ($MAIL)
+
+
+EOF
