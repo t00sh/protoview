@@ -70,7 +70,7 @@ L<https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg>
 =begin html
 
 <p>
-   <img src="https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg" alt="screen" />
+   <img src="https://raw.githubusercontent.com/t00sh/protoview/master/screenshots/version-1-0.jpg" alt="screen" />
 </p>
 
 =end html
