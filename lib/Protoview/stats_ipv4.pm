@@ -21,15 +21,18 @@
 
 package stats_ipv4;
 
+use strict;
+use warnings;
+
 use Protoview::format;
 use Protoview::misc;
 
-use constant {
-    IPV4_PROTO_ICMP => 1,
-    IPV4_PROTO_IGMP => 2,
-    IPV4_PROTO_TCP  => 6,
-    IPV4_PROTO_UDP  => 17,
-};
+my %ipv4_protos = (
+    1  => 'icmp',
+    2  => 'igmp',
+    6  => 'tcp',
+    17 => 'udp',
+    );
 
 # Called for every IPv4 packet
 # Update the stats Object
@@ -97,10 +100,9 @@ sub _build_addr_lines {
 sub _proto_to_str {
     my $proto = shift;
 
-    return 'icmp' if($proto == IPV4_PROTO_ICMP);
-    return 'igmp' if($proto == IPV4_PROTO_IGMP);
-    return 'tcp' if($proto == IPV4_PROTO_TCP);
-    return 'udp' if($proto == IPV4_PROTO_UDP);
+    if(exists $ipv4_protos{$proto}) {
+	return $ipv4_protos{$proto};
+    }
 
     return $proto;
 }

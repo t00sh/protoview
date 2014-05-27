@@ -25,10 +25,6 @@ use strict;
 use warnings;
 
 use Protoview::protocols;
-use Protoview::stats_eth;
-use Protoview::stats_ipv4;
-use Protoview::stats_ipv6;
-
 use Protoview::format;
 
 # Stats constructor

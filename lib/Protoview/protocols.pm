@@ -26,6 +26,14 @@ our $list;
 use Protoview::pkt_eth;
 use Protoview::pkt_ipv4;
 use Protoview::pkt_ipv6;
+use Protoview::pkt_icmp;
+use Protoview::pkt_icmpv6;
+
+use Protoview::stats_eth;
+use Protoview::stats_ipv4;
+use Protoview::stats_ipv6;
+use Protoview::stats_icmp;
+use Protoview::stats_icmpv6;
 
 # Constructor
 sub new {
@@ -69,6 +77,22 @@ BEGIN {
 	update      => \&stats_ipv6::update,
 	from        => 'ETHERNET',
 	field       => ['proto', 0x86DD]
+		    });    
+
+    $list->add('ICMP', {
+	parser      => \&pkt_icmp::parse,
+	build_lines => \&stats_icmp::build_lines,
+	update      => \&stats_icmp::update,
+	from        => 'IPV4',
+	field       => ['proto', 1]
+		    });    
+
+    $list->add('ICMPV6', {
+	parser      => \&pkt_icmpv6::parse,
+	build_lines => \&stats_icmpv6::build_lines,
+	update      => \&stats_icmpv6::update,
+	from        => 'IPV6',
+	field       => ['next_header', 58]
 		    });    
 
 }

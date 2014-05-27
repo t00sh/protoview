@@ -9,11 +9,15 @@ lib/Protoview/options.pm
 lib/Protoview/pcap.pm
 lib/Protoview/pkt.pm
 lib/Protoview/pkt_eth.pm
+lib/Protoview/pkt_icmp.pm
+lib/Protoview/pkt_icmpv6.pm
 lib/Protoview/pkt_ipv4.pm
 lib/Protoview/pkt_ipv6.pm
 lib/Protoview/protocols.pm
 lib/Protoview/stats.pm
 lib/Protoview/stats_eth.pm
+lib/Protoview/stats_icmp.pm
+lib/Protoview/stats_icmpv6.pm
 lib/Protoview/stats_ipv4.pm
 lib/Protoview/stats_ipv6.pm
 lib/Protoview/VARS.pm

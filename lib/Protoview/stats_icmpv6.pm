@@ -19,7 +19,7 @@
 #                                                                          #
 ############################################################################
 
-package stats_eth;
+package stats_icmpv6;
 
 use strict;
 use warnings;
@@ -27,22 +27,46 @@ use warnings;
 use Protoview::format;
 use Protoview::misc;
 
-my %eth_types = (
-    0x0800 => 'ipv4',
-    0x86DD => 'ipv6',
-    0x0806 => 'arp',
-    0x8035 => 'rarp'
+my %icmpv6_types = (
+    1   => 'dst-unreachable',
+    2   => 'pkt-too-big',
+    3   => 'ttl-exceded',
+    4   => 'param-problem',
+    128 => 'echo-request',
+    129 => 'echo-reply',
+    130 => 'multicast-listener-query',
+    131 => 'multicast-listener-report',
+    132 => 'multicast-listener-done',
+    133 => 'router-solicitation',
+    134 => 'router-advertisment',
+    135 => 'neighboor-solicitation',
+    136 => 'neighboor-advertisment',
+    137 => 'redirect',
+    138 => 'router-renumbering',
+    139 => 'node-info-query',
+    140 => 'node-info-response',
+    141 => 'invert-neighboor-sol',
+    142 => 'invert-neighboor-adv',
+    143 => 'multicast-listener-discovery',
+    144 => 'home-agent-addr-request',
+    145 => 'home-agent-addr-reply',
+    146 => 'mobile-prefix-sol',
+    147 => 'mobile-prefix-adv',
+    148 => 'cert-path-solicitation',
+    149 => 'cert-path-advertisment',
+    151 => 'multicast-router-adv',
+    152 => 'multicast-router-sol',
+    153 => 'multicast-router-term',
+    155 => 'RPL-control-msg',    
     );
 
-# This function is called for every ETHERNET packet
+# This function is called for every ICMP packet
 # Update stats object
 sub update {
     my ($stats_ref, $pkt_ref) = @_;
 
     $$stats_ref->{tot}++;
-    $$stats_ref->{src}{$$pkt_ref->{src}}++;
-    $$stats_ref->{dst}{$$pkt_ref->{dst}}++;
-    $$stats_ref->{proto}{$$pkt_ref->{proto}}++;
+    $$stats_ref->{type}{$$pkt_ref->{type}}++;
 }
 
 # Build lines for the displayer
@@ -53,57 +77,31 @@ sub build_lines {
     $lines->[$$i++] = format::line(' 'x$spaces . "   Total packets", $$ref->{tot});
     $lines->[$$i++] = ' ';
 
-    _build_proto_lines($ref, $spaces, $lines, $i);
-    $lines->[$$i++] = ' ';
-
-    _build_addr_lines($ref, $spaces, $lines, $i);
+    _build_type_lines($ref, $spaces, $lines, $i);
     $lines->[$$i++] = ' ';
 }
 
-# Build lines corresponding to the protocol
-sub _build_proto_lines {
+# Build lines corresponding to the ICMP type
+sub _build_type_lines {
    my ($ref, $spaces, $lines, $i) = @_;
    my @keys;
 
-   @keys = sort {$$ref->{proto}{$b} <=> $$ref->{proto}{$a}} keys %{$$ref->{proto}};
+   @keys = sort {$$ref->{type}{$b} <=> $$ref->{type}{$a}} keys %{$$ref->{type}};
    foreach my $p(@keys) {
-       $lines->[$$i++] = format::line(' 'x$spaces . "   Proto:" . _proto_to_str($p), 
-				      $$ref->{proto}{$p} . ' (' . misc::percentage($$ref->{proto}{$p}, $$ref->{tot}) . '%)');
+       $lines->[$$i++] = format::line(' 'x$spaces . "   Proto:" . _type_to_str($p), 
+				      $$ref->{type}{$p} . ' (' . misc::percentage($$ref->{type}{$p}, $$ref->{tot}) . '%)');
    }   
 }
 
-# Build lines corresponding to src/dst address
-sub _build_addr_lines {
-    my ($ref, $spaces, $lines, $i) = @_;
-    my @keys;
+sub _type_to_str {
+    my $type = shift;
 
-    unless($main::options->{addr}) {
-	$lines->[$$i++] = ' ';
 
-	@keys = sort {$$ref->{src}{$b} <=> $$ref->{src}{$a}} keys %{$$ref->{src}};
-	foreach my $p(@keys) {
-	    $lines->[$$i++] = format::line(' 'x$spaces . "   Src:$p", 
-					   $$ref->{src}{$p} . ' (' . misc::percentage($$ref->{src}{$p}, $$ref->{tot}) . '%)');
-	}
-
-	$lines->[$$i++] = ' ';
-
-	@keys = sort {$$ref->{dst}{$b} <=> $$ref->{dst}{$a}} keys %{$$ref->{dst}};
-	foreach my $p(@keys) {
-	    $lines->[$$i++] = format::line(' 'x$spaces . "   Dst:$p", 
-					   $$ref->{dst}{$p} . ' (' . misc::percentage($$ref->{dst}{$p}, $$ref->{tot}) . '%)');
-	}
-    }
-}
-
-sub _proto_to_str {
-    my $proto = shift;
-
-    if(exists($eth_types{$proto})) {
-	return $eth_types{$proto};
+    if(exists $icmpv6_types{$type}) {
+	return $icmpv6_types{$type};
     }
 
-    return $proto;
+    return $type;
 }
 
 1;

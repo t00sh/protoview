@@ -21,6 +21,9 @@
 
 package pkt_eth;
 
+use strict;
+use warnings;
+
 # Parse the ethernet packet
 sub parse {
     my ($this, $ref) = @_;

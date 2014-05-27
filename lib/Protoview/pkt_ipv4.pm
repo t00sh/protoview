@@ -21,6 +21,9 @@
 
 package pkt_ipv4;
 
+use strict;
+use warnings;
+
 # Parse the IPv4 packet
 sub parse {
     my ($this, $ref) = @_;
@@ -45,8 +48,8 @@ sub parse {
     $$ref->{frag_off} = $flags_fragoff & 0x1FFF;
     $$ref->{src} = _inet_ntoa($$ref->{src});
     $$ref->{dst} = _inet_ntoa($$ref->{dst});
-    $$ref->{options} = substr($this->{raw}, 20, $this->{ihl}*4);
-    $this->{raw} = substr($this->{raw}, $this->{ihl}*4);
+    $$ref->{options} = substr($this->{raw}, 20, $$ref->{ihl}*4);
+    $this->{raw} = substr($this->{raw}, $$ref->{ihl}*4);
 }
 
 # Convert 32bits IPv4 into dotted notation

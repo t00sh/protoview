@@ -21,16 +21,19 @@
 
 package stats_ipv6;
 
+use strict;
+use warnings;
+
 use Protoview::format;
 use Protoview::misc;
 
-use constant {
-    IPV6_PROTO_ICMP   => 1,
-    IPV6_PROTO_IGMP   => 2,
-    IPV6_PROTO_TCP    => 6,
-    IPV6_PROTO_UDP    => 17,
-    IPV6_PROTO_ICMPV6 => 58,
-};
+my %ipv6_protos = (
+    1  => 'icmp',
+    2  => 'igmp',
+    6  => 'tcp',
+    17 => 'udp',
+    58 => 'icmpv6',
+);
 
 # Called for every IPv6 packet
 # Update the stats Object
@@ -97,11 +100,9 @@ sub _build_addr_lines {
 sub _proto_to_str {
     my $proto = shift;
 
-    return 'icmp' if($proto == IPV6_PROTO_ICMP);
-    return 'igmp' if($proto == IPV6_PROTO_IGMP);
-    return 'tcp' if($proto == IPV6_PROTO_TCP);
-    return 'udp' if($proto == IPV6_PROTO_UDP);
-    return 'icmpv6' if($proto == IPV6_PROTO_ICMPV6);
+    if(exists $ipv6_protos{$proto}) {
+	return $ipv6_protos{$proto};
+    }
 
     return $proto;
 }
