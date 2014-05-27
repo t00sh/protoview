@@ -115,6 +115,10 @@ L<https://github.com/t00sh/protoview/blob/master/screenshots/version-1-0.jpg>
 
 =item IPv6
 
+=item ICMP
+
+=item ICMPv6
+
 =back
 
 =back
@@ -125,7 +129,7 @@ Protoview is distrubued with the terms of the B<GPLv3> license.
 
 =head1 VERSION
 
-Protoview version B<v1.0>
+Protoview version B<v1.0.1>
 
 =head1 AUTHOR
 
