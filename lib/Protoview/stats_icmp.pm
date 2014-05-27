@@ -27,24 +27,24 @@ use warnings;
 use Protoview::format;
 use Protoview::misc;
 
-use constant {
-    ICMP_TYPE_ECHO_REPLY   => 0,
-    ICMP_TYPE_DST_UNREACH  => 3,
-    ICMP_TYPE_SRC_QUENCH   => 4,
-    ICMP_TYPE_REDIRECT     => 5,
-    ICMP_TYPE_ECHO_REQ     => 8,
-    ICMP_TYPE_RA           => 9,
-    ICMP_TYPE_RS           => 10,
-    ICMP_TYPE_TIME_EXCEDED => 11,
-    ICMP_TYPE_BAD_IP_HDR   => 12,
-    ICMP_TYPE_TIMESTAMP    => 13,
-    ICMP_TYPE_TIMESTAMP_REP=> 14,
-    ICMP_TYPE_INFO_REQ     => 15,
-    ICMP_TYPE_INFO_REP     => 16,
-    ICMP_TYPE_MASK_REQ     => 17,
-    ICMP_TYPE_MASK_REP     => 18,
-    ICMP_TYPE_TRACEROUTE   => 19,
-};
+my %icmp_types = (
+    0  => 'echo-reply',
+    3  => 'dest-unreachable',
+    4  => 'source-quench',
+    5  => 'redirect',
+    8  => 'echo-request',
+    9  => 'router-adv',
+    10 => 'router-sol',
+    11 => 'ttl-exceded',
+    12 => 'param-problem',
+    13 => 'timestamp',
+    14 => 'timestamp-reply',
+    15 => 'info-request',
+    16 => 'info-reply',
+    17 => 'addr-mask-req',
+    18 => 'addr-mask-rep',
+    30 => 'traceroute',
+    );
 
 # This function is called for every ICMP packet
 # Update stats object
@@ -83,23 +83,9 @@ sub _build_type_lines {
 sub _type_to_str {
     my $type = shift;
 
-    
-    return 'echo-reply' if($type == ICMP_TYPE_ECHO_REPLY);
-    return 'dst-unreachable' if($type == ICMP_TYPE_DST_UNREACH);
-    return 'src-quench' if($type == ICMP_TYPE_SRC_QUENCH);
-    return 'redirect' if($type == ICMP_TYPE_REDIRECT);
-    return 'echo-request' if($type == ICMP_TYPE_ECHO_REQ);
-    return 'router-adv' if($type == ICMP_TYPE_RA);
-    return 'router-sol' if($type == ICMP_TYPE_RS);
-    return 'time-exceded' if($type == ICMP_TYPE_TIME_EXCEDED);
-    return 'bad-ip-header' if($type == ICMP_TYPE_BAD_IP_HDR);
-    return 'timestamp' if($type == ICMP_TYPE_TIMESTAMP);
-    return 'timestamp-reply' if($type == ICMP_TYPE_TIMESTAMP_REP);
-    return 'info-request' if($type == ICMP_TYPE_INFO_REQ);
-    return 'info-reply' if($type == ICMP_TYPE_INFO_REP);
-    return 'mask-request' if($type == ICMP_TYPE_MASK_REQ);
-    return 'mask-reply' if($type == ICMP_TYPE_MASK_REP);
-    return 'traceroute' if($type == ICMP_TYPE_TRACEROUTE);
+    if(exists $icmp_types{$type}) {
+	return $icmp_types{$type};
+    }
 
     return $type;
 }
