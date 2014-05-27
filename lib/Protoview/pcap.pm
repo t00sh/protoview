@@ -42,7 +42,7 @@ sub new {
     $this->_init_dev($dev);
     $this->{_callback} = $callback;
     $this->{_user} = $user;
-    $this->{_handle} = pcap_get_selectable_fd($this->{_pcap});
+    $this->{_handle} = Net::Pcap::pcap_get_selectable_fd($this->{_pcap});
     $this->{_timestamp} = time();
 
     return $this;    
