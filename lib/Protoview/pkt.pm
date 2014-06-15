@@ -55,10 +55,7 @@ sub parse {
     foreach my $p(keys %{$protocols::list}) {
     	if(defined $protocols::list->{$p}->{from}) {
     	    if($protocols::list->{$p}->{from} eq $proto) {
-    		my $field = $protocols::list->{$p}->{field}->[0];
-    		my $value = $protocols::list->{$p}->{field}->[1];
-
-    		if($$ref->{$field} == $value) {
+    		if($protocols::list->{$p}->{test}($$ref)) {
     		    $this->parse($p, \$$ref->{$p});
     		}
     	    }

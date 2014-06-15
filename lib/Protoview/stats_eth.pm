@@ -31,7 +31,10 @@ my %eth_types = (
     0x0800 => 'ipv4',
     0x86DD => 'ipv6',
     0x0806 => 'arp',
-    0x8035 => 'rarp'
+    0x8035 => 'rarp',
+    0x80F3 => 'appletalk-arp',
+    0x8100 => 'vlan-tagged-frame',
+    0x88E1 => 'homeplug-av',
     );
 
 # This function is called for every ETHERNET packet

@@ -68,7 +68,7 @@ BEGIN {
 	build_lines => \&stats_ipv4::build_lines,
 	update      => \&stats_ipv4::update,
 	from        => 'ETHERNET',
-	field       => ['proto', 0x0800]
+	test       => sub {$_[0]->{proto} ==  0x0800}
 		    });    
 
     $list->add('IPV6', {
@@ -76,7 +76,7 @@ BEGIN {
 	build_lines => \&stats_ipv6::build_lines,
 	update      => \&stats_ipv6::update,
 	from        => 'ETHERNET',
-	field       => ['proto', 0x86DD]
+	test        => sub {$_[0]->{proto} == 0x86DD}
 		    });    
 
     $list->add('ICMP', {
@@ -84,7 +84,7 @@ BEGIN {
 	build_lines => \&stats_icmp::build_lines,
 	update      => \&stats_icmp::update,
 	from        => 'IPV4',
-	field       => ['proto', 1]
+	test        => sub {$_[0]->{proto} == 1}
 		    });    
 
     $list->add('ICMPV6', {
@@ -92,7 +92,7 @@ BEGIN {
 	build_lines => \&stats_icmpv6::build_lines,
 	update      => \&stats_icmpv6::update,
 	from        => 'IPV6',
-	field       => ['next_header', 58]
+	test        => sub {$_[0]->{next_header} ==  58}
 		    });    
 
 }
