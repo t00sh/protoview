@@ -60,11 +60,11 @@ sub del {
 # Process events
 sub process {
     my $this = shift;
-    my @ready;
+    my $ready;
 
-    @ready = $this->{_select}->can_read(0.1);
+    ($ready) = IO::Select::select($this->{_select}, undef, undef, 0.1);
 
-    foreach(@ready) {
+    foreach(@$ready) {
 	$this->{$_}->{_callback}($this->{$_}->{_user});
     }
     

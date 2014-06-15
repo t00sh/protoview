@@ -55,6 +55,7 @@ sub _parse {
 	'refresh=s'    => \$this->{refresh},
 	'iface=s'      => \$this->{iface},
 	'addr'         => \$this->{addr},
+	'pcap=s'       => \$this->{pcap},
 	'help'         => \$this->{help},
 	'man'          => \$this->{man},
 	'version'      => \$this->{version}

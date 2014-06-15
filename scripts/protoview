@@ -42,7 +42,18 @@ our $stats = stats->new;
 our $event = event->new;
 
 # Init PCAP
-our $pcap = pcap->new($options->{iface}, \&pcap::handle, $stats);
+our $pcap;
+
+if($options->{pcap}) {
+    $pcap = pcap->new(pcap => $options->{pcap}, 
+		      callback => \&pcap::handle, 
+		      user => $stats);
+} else {
+    $pcap = pcap->new(dev => $options->{iface}, 
+		      callback => \&pcap::handle, 
+		      user => $stats);
+}
+
 $event->add($pcap->get_handle, \&pcap::next_pkt, $pcap);
 
 # Init displayer

@@ -64,6 +64,10 @@ Don't color the terminal
 
 Don't show address fields
 
+=item B<-p -pcap>
+
+Read packets from a pcap file
+
 =item B<-v -version>
 
 Print version

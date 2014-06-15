@@ -34,12 +34,35 @@ use Protoview::pkt;
 # Create new Pcap object
 # Init the pcap library
 sub new {
-    my ($class, $dev, $callback, $user) = @_;
+    my ($class, %h) = @_;
     my $this = {};
+
+    my $dev = $h{dev};
+    my $pcap = $h{pcap};
+    my $callback = $h{callback};
+    my $user = $h{user};
+
+    if(!$dev && !$pcap) {
+	die "No device or pcap file given !\n";
+    }
+    
+    if($dev && $pcap) {
+	die "You must give a pcap OR a device (not twice) !\n";
+    }
+    
+    if(!$callback) {
+	die "You must give a callback !\n";
+    }
 
     bless($this, $class);
 
-    $this->_init_dev($dev);
+    if($dev) {
+	$this->_init_dev($dev);
+    } else { 
+	$this->_init_pcap($pcap);
+    }
+
+    $this->{_file} = $pcap;
     $this->{_callback} = $callback;
     $this->{_user} = $user;
     $this->{_handle} = Net::Pcap::pcap_get_selectable_fd($this->{_pcap});
@@ -69,6 +92,18 @@ sub _init_dev {
     }
 }
 
+# Init pcap library with a pcap file
+sub _init_pcap {
+    my ($this, $pcap) = @_;
+    my $err;
+    
+    $this->{_pcap} = Net::Pcap::open_offline($pcap, \$err);
+
+    unless(defined $this->{_pcap}) {
+	die "[-] Can't open pcap file ($pcap) : $err\n";
+    }
+}
+
 # Get the next packet
 sub next_pkt {
     my ($this) = @_;
@@ -77,6 +112,8 @@ sub next_pkt {
     $pkt = Net::Pcap::next($this->{_pcap}, \%hdr); 
     if(defined $pkt) {
 	$this->{_callback}($pkt, \%hdr, $this->{_user});
+    } elsif($this->{_file}) {
+	$main::event->del($this->get_handle);
     }
 }
 
