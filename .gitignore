@@ -2,6 +2,9 @@
 *~
 *.json
 *.yml
-Makefile
 blib
 pm_to_blib
+src
+include
+*.pcap
+Makefile
