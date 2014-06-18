@@ -141,6 +141,6 @@ Protoview version B<v1.0.1>
 
 =head1 AUTHOR
 
-Written by B<Tosh> (duretsimon73 -at- gmail -dot- com)
+Written by B<Tosh> (tosh -at- t0x0sh -dot- org)
 
 
