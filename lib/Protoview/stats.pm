@@ -96,12 +96,34 @@ sub get_tot_bytes {
     return $_[0]->{_tot_bytes};
 }
 
-# Get the kilo-bits per seconds rate
-sub get_kbits_per_sec {
+# Get the (K/M/G)bits per seconds rate
+sub get_bits_per_sec {
     my $this = shift;
+    my $bits;
+    my $unit = 'b/sec';
 
-    return 0 unless $this->get_elapsed_time;
-    return sprintf "%.2f", (($this->get_tot_bytes*8)/$this->get_elapsed_time)/1000;
+    if($this->get_elapsed_time) {
+	$bits = ($this->get_tot_bytes*8) / $this->get_elapsed_time;
+    } else {
+	$bits = $this->get_tot_bytes*8;
+    }
+
+    if($bits > 1000) {
+	$unit = 'Kb/sec';
+	$bits /= 1000;
+    }
+
+    if($bits > 1000) {
+	$unit = 'Mb/sec';
+	$bits /= 1000;
+    }
+
+    if($bits > 1000) {
+	$unit = 'Gb/sec';
+	$bits /= 1000;
+    }
+
+    return sprintf "%.2f %s", $bits, $unit;
 }
 
 # Get the average bytes per packet
@@ -121,7 +143,7 @@ sub build_lines {
     $lines[$i++] = format::menu("++ INFOS");
     $lines[$i++] = format::line("   Packets captured",  $this->get_tot_pkt);
     $lines[$i++] = format::line("   Packets/sec",  $this->get_pkt_per_sec);
-    $lines[$i++] = format::line("   Kb/sec.", $this->get_kbits_per_sec);
+    $lines[$i++] = format::line("   Bandwidth", $this->get_bits_per_sec);
     $lines[$i++] = format::line("   bytes/packet", $this->get_bytes_per_pkt);
     $lines[$i++] = format::line("   Elapsed secondes", $this->get_elapsed_time);
     $lines[$i++] = ' ';

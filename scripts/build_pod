@@ -98,6 +98,10 @@ Scroll forward
 
 Browse into the window
 
+=item B<q>
+
+Quit
+
 =back
 
 =head1 DESCRIPTION

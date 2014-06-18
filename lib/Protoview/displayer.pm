@@ -119,7 +119,7 @@ sub update {
     $end_y = scalar @{$lines} if($end_y > @{$lines});
     $this->print_line($LINES-2,
 		      1,
-		      substr(format::help('[' . $end_y . '/' . @{$lines} . ' lines. Press PAGE_UP or PAGE_DOWN]'),
+		      substr(format::help('[ ' . $end_y . '/' . @{$lines} . ' lines. Press PAGE_UP or PAGE_DOWN ]'),
 			     $start_x, $end_x-$start_x));
     refresh;
 }
@@ -200,6 +200,10 @@ sub dec_y_view {
 
     $this->{_y_view} -= $n;
     $this->{_y_view} = 0 if($this->{_y_view} < 0);
+}
+
+END {
+    endwin();
 }
 
 1;

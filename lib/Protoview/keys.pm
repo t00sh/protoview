@@ -41,6 +41,8 @@ sub process {
 	    $main::displayer->dec_y_view(int(displayer::win_y()/2));
 	} elsif($ch == KEY_NPAGE) {
 	    $main::displayer->inc_y_view(int(displayer::win_y()/2));
+	} elsif($ch == KEY_q) {
+	    exit 0;
 	}
 
 	$main::displayer->update;
