@@ -137,7 +137,7 @@ Protoview is distrubued with the terms of the B<GPLv3> license.
 
 =head1 VERSION
 
-Protoview version B<v1.0.1>
+Protoview version B<v1.1>
 
 =head1 AUTHOR
 
